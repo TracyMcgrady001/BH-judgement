@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<time.h>
 #define m 1//mass of single particles//粒子质量
-#define N 10000//number of particles//例子总数
+#define N 10000//number of particles//粒子总数
 #define D 5000//critical mass density//质量密度判据
 
 
