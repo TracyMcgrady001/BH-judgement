@@ -3,8 +3,8 @@
 #include<stdlib.h>
 #include<time.h>
 #define m 1//mass of single particles//粒子质量
-#define N 10000//number of particles//粒子总数
-#define D 5000//critical mass density//质量密度判据
+#define N 10000//number of particles//例子总数
+#define D 10//critical mass density//质量密度判据
 
 
 
@@ -53,10 +53,10 @@ particle_data *BH(particle_data *p,float x,int z)//p为进行操作的particle_d
     FILE *f2;//后面将筛选出来的粒子输入进文件分f2中
     particle_data q[z],*r;//q数组用来记录筛选出的粒子，r用来作函数的返回值    
     float a[z-1];//用来记录粒子间距离，因为自身与自身距离无意义，故数组长度为z-1
-    float b=0.0001;//以某粒子为中心，在该半径区域内进行粒子密度计算
+    float b=1.5;//以某粒子为中心，在该半径区域内进行粒子密度计算
     int i,j,k,l;//用来循环
     int n=0;//用来标记筛选出粒子个数
-      
+    int d=1000;  
                     
     for(i=0;i<z;i++){   k=0;
                         for(j=0;j<z;j++){
@@ -68,15 +68,17 @@ particle_data *BH(particle_data *p,float x,int z)//p为进行操作的particle_d
                                         }
                         ShellSort(a,z-1);//对浮点数组a进行从小到大的希尔排序
                         l=0;//每次循环前，l,k需要赋值为0
-                        for(j=0;j<z-1;j++) {if(((a[j]<b)||(fabs(a[j]-b)<1e-6))) 
+                        for(j=0;j<z-1;j++) {
+                                            if(((a[j]<b))) 
                                               {l++;}
-                                           }//判断该半径内有多少粒子，用l来记录粒子数（因为上一步骤中已经跳过了对i，i粒子即同一粒子计算距离，所以循环数为z-1）
-                                           
-                        if(l!=0){ for(j=0;j<l;j++) { if((((j+2)*m/pow(a[j],3)>x)||(fabs((j+2)*m/pow(a[j],3)-x)<1e-6))) 
-                                                        {q[n]=p[i];n++;}
+                                           }
+                                         //判断该半径内有多少粒子，用l来记录粒子数（因为上一步骤中已经跳过了对i，i粒子即同一粒子计算距离，所以循环数为z-1）
+                                         
+                        if(l!=0&&l>d){ for(j=0;j<l;j++) { if((((j+2)*m/pow(a[j],3)>x)))
+                                                    {q[n]=p[i];n++;break;}
                                                    }
-                                }//当l不为0即半径b内有粒子时，判断(j+2)*m/a[j]^3是否大于等于临界数密度，此处取以b为半边长的正方体内，与取球体相近，n为记录该，j是因为作为数组的a[j]元素，实际上是整个数组的j+1个元素，再算上中心处粒子自身，所以j+2
-
+                                     }//当l不为0即半径b内有粒子时，判断(j+2)*m/a[j]^3是否大于等于临界数密度，此处取以b为半边长的正方体内，与取球体相近，n为记录该，j是因为作为数组的a[j]元素，实际上是整个数组的j+1个元素，再算上中心处粒子自身，所以j+2
+                        /*if(l>x){q[n]=p[i];n++;}*/
                     }//上述操作对所有粒子遍历，一旦满足，则作为q[n]记录下来
     
     for(i=0;i<n;i++) printf("x%d=%f,y%d=%f,z%d=%f\n",i+1,q[i].Pos[0],i+1,q[i].Pos[1],i+1,q[i].Pos[2]);//print the coordinates of target particles//这一步是在终端中直接看出筛选出来多少粒子，无需打开文件，可以删去
