@@ -1,0 +1,20 @@
+# BH-accretion-rate 1.0
+For reading texts of data of snapshots developed by Sun Jialin
+
+
+## Compilation
+
+``gcc source_code_filename-o snapshot_reader -lm``
+
+## Usage
+
+Command format paradigm:
+``command format paradigm:./BH datafile_name``
+(supporting reading multiple data files by typing file name like “datafile_name_*)
+
+For example,if the input file name is input_fname,just type
+``./BH  input_fname_* ``
+
+
+
+
