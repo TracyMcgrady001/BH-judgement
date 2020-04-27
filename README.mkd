@@ -1,10 +1,10 @@
-# BH-accretion-rate 1.0
+# BH-accretion-rate 2.0
 For reading texts of data of snapshots developed by Sun Jialin
 
 
 ## Compilation
 
-``gcc source_code_filename-o snapshot_reader -lm``
+``gcc source_code_filename-o BH -lm``
 
 ## Usage
 
